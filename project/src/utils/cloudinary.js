@@ -1,5 +1,4 @@
 import {v2 as cloudinary} from 'cloudinary'
-import { log } from 'console';
 import fs from 'fs'
 
 
@@ -15,7 +14,7 @@ const uploadOnCloudinary = async (localFilePath) =>{
         const response = await cloudinary.uploader.upload(localFilePath,{
             resource_type : 'auto'
         })
-        console.log('file uploaded ', response.url);
+        fs.unlinkSync(localFilePath);
         return response
     } catch (error) {
         fs.unlinkSync(localFilePath)   // upload op failed delete from local storage
