@@ -4,8 +4,6 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from 'jsonwebtoken'
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { password } from "bun";
-
 
 const generateAcessAndRefreshToken = async (userId)=>{
     try {
@@ -172,7 +170,10 @@ const refreshAccessToken = asyncHandler(async (req, res)=>{
 
 const changeCurrentPassword = asyncHandler (async(req,res)=>{
     const {oldPassword, newPassword} = req.body;
+    console.log(newPassword);
+    console.log(oldPassword);
     const user = await User.findById(req.user?._id);
+    console.log(user);
     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword); 
     if (!isPasswordCorrect) throw new ApiError(400, 'invalid old password');
 
@@ -232,6 +233,7 @@ const updateAvatar = asyncHandler(async(req, res) =>{
     )
     
 })
+
 const updateCoverImage = asyncHandler(async(req, res) =>{
     const coverImageLocalPath = req.file?.path; 
     if (!coverImageLocalPath) throw new ApiError(400,'coverimage file is missing');
